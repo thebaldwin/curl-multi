@@ -309,8 +309,8 @@ module Curl
           tv.tv_usec = (timeout * 1000) % 1000000;
 
           /* Wait */
-          r = select(n + 1, &rfds, &wfds, &efds, (timeout < 0) ? NULL : &tv);
-          if (r < 0) rb_raise(rb_eRuntimeError, "select(): %s", strerror(errno));
+          r = rb_thread_select(n + 1, &rfds, &wfds, &efds, (timeout < 0) ? NULL : &tv);
+          if (r < 0) rb_raise(rb_eRuntimeError, "rb_thread_select(): %s", strerror(errno));
 
           ready_rfda = rb_ary_new();
           ready_wfda = rb_ary_new();
